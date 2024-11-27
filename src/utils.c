@@ -1,13 +1,9 @@
 #include "utils.h"
-#include "matrix_operations.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-
-#define MIN_MAT_SIZE 16
-#define MAX_MAT_SIZE 4096
 
 
 const char* func2str(func_t function) {
@@ -66,13 +62,28 @@ void print_matrix(float** M, int size) {
     printf("\n");
 }
 
-void init_mat(float** M, int n) {
+float **new_mat(int size) {
+    float **M =  malloc(sizeof(float) * size);
+    for (int i = 0; i < size; ++i) {
+            M[i] = malloc(sizeof(float) * size);
+    }
+    return M;
+}
+
+void init_random_mat(float** M, int n) {
     srand(time(NULL));
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             M[i][j] = ((float)rand()) / RAND_MAX;
         }
     }
+}
+
+void free_mat(float **M, int n) {
+    for (int i = 0; i < n; ++i) {
+        free(M[i]);
+    }
+    free(M);
 }
 
 
@@ -85,41 +96,4 @@ bool check_transpose(float **M, float **T, int size){
         }
     }
     return true;
-}
-
-void test_performance(float **M, float** T){
-    char* filename = "data.csv";
-
-    for(int size = MIN_MAT_SIZE; size < MAX_MAT_SIZE; size *= 2){
-        init_mat(M, size);
-
-        if (checkSym(M, size)) {
-            for (int i = 0; i < size; ++i) {
-                for (int j = 0; j < size; ++j) {
-                    T[i][j] = M[i][j];
-                }
-            }
-        } else {
-            // TASK 1: sequential matrix transposition
-            checkSym(M, T, size);
-            matTranspose(M, T, size);
-            check_transpose(M, T, size);
-            // print_matrix(T, size);
-
-            // TASK 2: implicitly parellelized transposition
-            
-            #pragma GCC optimize("-O2 -march=native -ftree-vectorize")
-            {
-                checkSymImp(M, T, size);
-                matTransposeImp(M, T, size);
-            }
-            check_transpose(M, T, size);
-            // print_matrix(T, size);
-
-            checkSymOMP(M, T, size);
-            matTransposeOMP(M, T, size);
-            check_transpose(M, T, size);
-
-        }
-    }
 }

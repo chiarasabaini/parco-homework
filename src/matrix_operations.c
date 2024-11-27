@@ -18,7 +18,7 @@
 bool checkSym(float** M, int n) {
     double start = omp_get_wtime();
 
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n - 1; ++i) {
         for (int j = i + 1; j < n; ++j) {
             if (M[i][j] != M[j][i]) {
                 return false;
@@ -72,7 +72,7 @@ void matTranspose(float** M, float** T, int n) {
 bool checkSymImp(float** M, int n) {
     double start = omp_get_wtime();
 
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n - 1; ++i) {
 
         #pragma unroll(4)
         for (int j = i + 1; j < n; ++j) {
@@ -163,15 +163,18 @@ void matTransposeBlock(float** M, float** T, int n){
 bool checkSymOMP(float** M, int n) {
     double start = omp_get_wtime();
 
+    int i;
     bool is_sym = true;
 
-    #pragma omp parallel for collapse(2) reduction(&:symmetric)
-    for (int i = 0; i < n; ++i) {
+    #pragma omp parallel for collapse(1) shared(M, n, i) reduction(&:is_sym)
+    for (i = 0; i < n - 1; ++i) {
+        
+        #pragma omp parallel for collapse(1) reduction(&:is_sym)
         for (int j = i + 1; j < n; ++j) {
             if (M[i][j] != M[j][i]) {
                 is_sym = false;
-            }
         }
+    }
     }
 
     double end = omp_get_wtime();
@@ -192,10 +195,11 @@ bool checkSymOMP(float** M, int n) {
 void matTransposeOMP(float** M, float** T, int n){
     double start = omp_get_wtime();
 
+    int i, j;
     
     #pragma omp parallel for collapse(2)
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
+    for (i=0; i < n; ++i) {
+        for (j=0; j < n; ++j) {
             T[j][i] = M[i][j];
         }
     }

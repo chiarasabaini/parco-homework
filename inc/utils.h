@@ -8,6 +8,9 @@
 
 #include <stdbool.h>
 
+#define MIN_MAT_SIZE 16
+#define MAX_MAT_SIZE 4096
+
 typedef enum {
     TRANSPOSITION = 0,
     SYMMETRY = 1,
@@ -30,7 +33,9 @@ const char* imp2str(imp_t implementation);
  * @param M matrix
  * @param n size of matrix M[n][n]
  */
-void init_mat(float** M, int n);
+float **new_mat(int n);
+void free_mat(float **M, int n);
+void init_random_mat(float** M, int n);
 
 
 /**
@@ -56,14 +61,5 @@ void print_log(const char *msg, func_t func, imp_t imp, float size, int n_thread
  * @return true if it's been trasposed correctly, false otherwise
  */
 bool check_transpose(float **M, float **T, int size);
-
-/**
- * @brief
- * 
- * @param M matrix
- * @param T matrix
- */
-void test_performance(float** M, float** T);
-
 
 #endif // UTILS_H

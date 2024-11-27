@@ -37,6 +37,8 @@ void matTranspose(float** M, float** T, int n);
  * @param n size of matrix M[n][n]
  * @return true if the matrix is symmetric, false otherwise
  */
+// #pragma GCC target "march=native"
+#pragma GCC optimize ("O2,tree-vectorize")
 bool checkSymImp(float** M, int n);
 
 /**
@@ -46,6 +48,8 @@ bool checkSymImp(float** M, int n);
  * @param[out] T M transposed
  * @param[in] n size of matrix M[n][n]
  */
+// #pragma GCC target "march=native"
+#pragma GCC optimize ("O2,tree-vectorize")
 void matTransposeImp(float** M, float** T, int n);
 
 /**
