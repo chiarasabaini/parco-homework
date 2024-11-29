@@ -22,6 +22,7 @@ gcc --version
 
 
 echo "Job running on: $(hostname)"
+lscpu
 
 # Select the working directory
 cd /home/chiara.sabaini/parco_lab/parco-homework/src/
