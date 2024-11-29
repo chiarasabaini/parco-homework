@@ -9,8 +9,6 @@
  * @param T matrix
  */    
 void test_performance(){
-    char* filename = "data.csv";
-
     for(int size = MIN_MAT_SIZE; size < MAX_MAT_SIZE; size *= 2){
         // allocate memory for matrices
         float** M = new_mat(size);
