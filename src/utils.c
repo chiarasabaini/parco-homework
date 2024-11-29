@@ -48,7 +48,7 @@ FILE *init_log() {
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
 
     char filepath[255];
-    snprintf(filepath, 255, "..\\out\\%s_%d_log.csv", time_string, n_threads);
+    snprintf(filepath, 255, "../out/data/%s_%d_log.csv", time_string, n_threads);
 
     FILE *log = fopen(filepath, "w");
     if (log == NULL) {
