@@ -7,3 +7,7 @@ MakeFile
 
 build/
 bin/
+
+err.e
+out.o
+homework.exe

@@ -2,8 +2,8 @@
 # Job name
 #PBS -N IPC_homework
 # Output files
-#PBS -o ./out.o
-#PBS -e ./err.e
+#PBS -o ./out/out.o
+#PBS -e ./out/err.e
 # Queue name
 #PBS -q short_cpuQ
 # Set the maximum wall time
@@ -23,17 +23,17 @@ gcc --version
 
 echo "Job running on: $(hostname)"
 
-# Select the working directory (change this line)
-cd /home/chiara.sabaini/parco_lab/parco-homework/
+# Select the working directory
+cd /home/chiara.sabaini/parco_lab/parco-homework/src/
 
 # The code should be compiled before submitting the job
 # gcc -o hello hello.c
 
 # Run hello
-gcc utils.c -o utils.o
-gcc matrix_operations.c -o matrix_operations.o -fopenmp 
-gcc main.c -o main.o -fopenmp
-gcc utils.o matrix_operations.o main.o -o homework_exe -fopenmp
+gcc utils.c matrix_operations.c main.c -L ../inc -o ../bin/homework_exe -fopenmp
+
+# change to executables directory
+cd /home/chiara.sabaini/parco_lab/parco-homework/bin/
 
 export OMP_NUM_THREADS=1; ./homework_exe
 export OMP_NUM_THREADS=2; ./homework_exe
