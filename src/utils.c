@@ -63,9 +63,9 @@ FILE *init_log() {
 
 void print_log(FILE* log,const char *msg, func_t func, imp_t imp, int size, int n_threads, double execution_time) {
 
-    // #if LOG_DEBUG == 1
+    #if LOG_DEBUG == 1
         printf("%s:\n\tmatrix size: %d\n\tn_threads: %d\n\texecution time:%f\n", msg, size, n_threads, execution_time);
-    // #endif
+    #endif
 
     fprintf(log, "%d, %d, %s, %s, %f\n", size, n_threads, func2str(func), imp2str(imp), execution_time);
 }
