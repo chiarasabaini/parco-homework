@@ -24,7 +24,7 @@ gcc --version
 echo "Job running on: $(hostname)"
 
 # Select the working directory (change this line)
-cd /home/chiara.sabaini/parco-homework/
+cd /home/chiara.sabaini/parco_lab/parco-homework/
 
 # The code should be compiled before submitting the job
 # gcc -o hello hello.c
@@ -33,15 +33,16 @@ cd /home/chiara.sabaini/parco-homework/
 gcc utils.c -o utils.o
 gcc matrix_operations.c -o matrix_operations.o -fopenmp 
 gcc main.c -o main.o -fopenmp
+gcc utils.o matrix_operations.o main.o -o homework_exe -fopenmp
 
-export OMP_NUM_THREADS=1; ./IPC_homework.out
-export OMP_NUM_THREADS=2; ./IPC_homework.out
-export OMP_NUM_THREADS=4; ./IPC_homework.out
-export OMP_NUM_THREADS=8; ./IPC_homework.out
-export OMP_NUM_THREADS=16; ./IPC_homework.out
-export OMP_NUM_THREADS=32; ./IPC_homework.out
-export OMP_NUM_THREADS=64; ./IPC_homework.out
-export OMP_NUM_THREADS=96; ./IPC_homework.out
+export OMP_NUM_THREADS=1; ./homework_exe
+export OMP_NUM_THREADS=2; ./homework_exe
+export OMP_NUM_THREADS=4; ./homework_exe
+export OMP_NUM_THREADS=8; ./homework_exe
+export OMP_NUM_THREADS=16; ./homework_exe
+export OMP_NUM_THREADS=32; ./homework_exe
+export OMP_NUM_THREADS=64; ./homework_exe
+export OMP_NUM_THREADS=96; ./homework_exe
 
 
 
