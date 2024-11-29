@@ -35,11 +35,11 @@ const char* imp2str(imp_t implementation) {
 
 FILE* global_log;
 
-FILE *init_log() {
+FILE* init_log() {
     time_t current_time;
     time(&current_time);
     
-    struct tm * time_info;
+    struct tm* time_info;
     time_info = localtime(&current_time);
 
     char time_string[32];
@@ -50,7 +50,7 @@ FILE *init_log() {
     char filepath[255];
     snprintf(filepath, 255, "../out/data/%s_%d_log.csv", time_string, n_threads);
 
-    FILE *log = fopen(filepath, "w");
+    FILE* log = fopen(filepath, "w");
     if (log == NULL) {
         perror("Error opening file");
     } else {
@@ -61,17 +61,17 @@ FILE *init_log() {
 }
 
 
-void print_log(FILE* log,const char *msg, func_t func, imp_t imp, int size, int n_threads, double execution_time) {
+void print_log(FILE* log, const char* msg, func_t func, imp_t imp, int size, int n_threads, double execution_time) {
 
     #if LOG_DEBUG == 1
         printf("%s:\n\tmatrix size: %d\n\tn_threads: %d\n\texecution time:%f\n", msg, size, n_threads, execution_time);
     #endif
 
-    fprintf(log, "%d, %d, %s, %s, %f\n", size, n_threads, func2str(func), imp2str(imp), execution_time);
+    fprintf(log, "%d,%d,%s,%s,%f\n", size, n_threads, func2str(func), imp2str(imp), execution_time);
 }
 
 
-void close_log(FILE *log) {
+void close_log(FILE* log) {
     if(log) {
         fclose(log);
     }
@@ -79,8 +79,8 @@ void close_log(FILE *log) {
 
 
 void print_matrix(float** M, int size) {
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
             printf("%f ", M[i][j]);
         }
         printf("\n");
@@ -112,7 +112,7 @@ void init_mat(float** M, int n) {
 
 
 void free_mat(float **M, int n) {
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; i++) {
         free(M[i]);
     }
     

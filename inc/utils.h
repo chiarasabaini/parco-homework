@@ -36,8 +36,8 @@ const char* func2str(func_t function);
 
 typedef enum {
   SEQUENTIAL = 0,
-  IMPLICIT = 2,
-  OMP = 4,
+  IMPLICIT = 1,
+  OMP = 2,
   // BLOCKS = 4,
   N_IMPLEMENTATIONS
 } imp_t;

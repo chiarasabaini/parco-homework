@@ -16,8 +16,8 @@ void test_performance(){
         init_mat(M, size);
         
         if (checkSym(M, size)) {
-            for (int i = 0; i < size; ++i) {
-                for (int j = 0; j < size; ++j) {
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
                     T[i][j] = M[i][j];
                 }
             }
@@ -32,7 +32,6 @@ void test_performance(){
                 // TASK 2: implicitly parellelized transposition
                 checkSymImp(M, size);
                 matTransposeImp(M, T, size);
-                
                 check_transpose(M, T, size);
                 // print_matrix(T, size);
     

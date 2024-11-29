@@ -12,9 +12,8 @@
 
 bool checkSym(float** M, int n) {
     double start = omp_get_wtime();
-
-    for (int i = 0; i < n - 1; ++i) {
-        for (int j = i + 1; j < n; ++j) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
             if (M[i][j] != M[j][i]) {
                 return false;
             }
@@ -23,7 +22,7 @@ bool checkSym(float** M, int n) {
 
     double end = omp_get_wtime();
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
-    print_log(global_log, "Sequental Symmetry Check", SYMMETRY, SEQUENTIAL, n, n_threads, end - start);
+    print_log(global_log, "Sequential Symmetry Check", SYMMETRY, SEQUENTIAL, n, n_threads, end - start);
 
     return true;
 }
@@ -32,8 +31,8 @@ bool checkSym(float** M, int n) {
 void matTranspose(float** M, float** T, int n) {
     double start = omp_get_wtime();
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
             T[j][i] = M[i][j];
         }
     }
@@ -49,10 +48,10 @@ void matTranspose(float** M, float** T, int n) {
 bool checkSymImp(float** M, int n) {
     double start = omp_get_wtime();
 
-    for (int i = 0; i < n - 1; ++i) {
+    for (int i = 0; i < n - 1; i++) {
 
         #pragma unroll(4)
-        for (int j = i + 1; j < n; ++j) {
+        for (int j = i + 1; j < n; j++) {
             if (M[i][j] != M[j][i]) {
                 return false;
             }
@@ -117,10 +116,10 @@ bool checkSymOMP(float** M, int n) {
     bool is_sym = true;
 
     #pragma omp parallel for collapse(1) reduction(&:is_sym)
-    for (i = 0; i < n - 1; ++i) {
+    for (i = 0; i < n - 1; i++) {
 
         #pragma omp parallel for collapse(1) reduction(&:is_sym)
-        for (int j = i + 1; j < n; ++j) {
+        for (int j = i + 1; j < n; j++) {
             if (M[i][j] != M[j][i]) {
                 is_sym = false;
         }
@@ -141,8 +140,8 @@ void matTransposeOMP(float** M, float** T, int n){
     int i, j;
     
     #pragma omp parallel for collapse(2)
-    for (i=0; i < n; ++i) {
-        for (j=0; j < n; ++j) {
+    for (i=0; i < n; i++) {
+        for (j=0; j < n; j++) {
             T[j][i] = M[i][j];
         }
     }
@@ -154,7 +153,7 @@ void matTransposeOMP(float** M, float** T, int n){
 }
 
 
-bool check_transpose(float **M, float **T, int size){
+bool check_transpose(float** M, float** T, int size){
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             if (M[i][j] != T[j][i]) {
