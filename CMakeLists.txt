@@ -17,6 +17,7 @@ set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-pthread -O0 -g -w -fopenmp")
 # Ofast -> [O3 optimizations + aggressive math optimizations]
 
 set(SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/src)
+add_compile_definitions("LOG_DEBUG=1")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 

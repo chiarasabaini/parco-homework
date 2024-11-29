@@ -1,20 +1,15 @@
 #include "utils.h"
 #include "matrix_operations.h"
+
 #include <omp.h>
 #include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 
 // TASK 1
 
-/**
- * @brief Check if a matrix is symmetric
- *
- * @param M matrix to check.
- * @param n size of the matrix M[n][n]
- * @return true if the matrix is symmetric, false otherwise
- */
 bool checkSym(float** M, int n) {
     double start = omp_get_wtime();
 
@@ -27,22 +22,13 @@ bool checkSym(float** M, int n) {
     }
 
     double end = omp_get_wtime();
-
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
-
-    print_log("Sequental Symmetry Check", SYMMETRY, SEQUENTIAL, n, n_threads, end - start);
+    print_log(global_log, "Sequental Symmetry Check", SYMMETRY, SEQUENTIAL, n, n_threads, end - start);
 
     return true;
 }
 
 
-/**
- * @brief Transpose a matrix
- *
- * @param[in] M original matrix
- * @param[out] T transposed matrix
- * @param[in] n size of the matrices M[n][n] and T[n][n]
- */
 void matTranspose(float** M, float** T, int n) {
     double start = omp_get_wtime();
 
@@ -53,22 +39,13 @@ void matTranspose(float** M, float** T, int n) {
     }
 
     double end = omp_get_wtime();
-    
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
-
-    print_log("Sequental Transposition", TRANSPOSITION, SEQUENTIAL, n, n_threads, end - start);
+    print_log(global_log, "Sequental Transposition", TRANSPOSITION, SEQUENTIAL, n, n_threads, end - start);
 }
 
 
 // TASK 2
 
-/**
- * @brief Check if a matrix is symmetric
- *
- * @param M matrix to check.
- * @param n size of the matrix M[n][n]
- * @return true if the matrix is symmetric, false otherwise
- */
 bool checkSymImp(float** M, int n) {
     double start = omp_get_wtime();
 
@@ -83,21 +60,12 @@ bool checkSymImp(float** M, int n) {
     }
 
     double end = omp_get_wtime();
-    
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
-
-    print_log("Implicit Symmetry Check", SYMMETRY, IMPLICIT, n, n_threads, end - start);
+    print_log(global_log, "Implicit Symmetry Check", SYMMETRY, IMPLICIT, n, n_threads, end - start);
 
     return true;
 }
 
-/**
- * @brief matrix transposition using block segmentation
- * 
- * @param[in] M original matrix
- * @param[out] T transposed matrix
- * @param[in] n size of the matrices M[n][n] and T[n][n]
- */
 
 void matTransposeImp(float** M, float** T, int n){
     double start = omp_get_wtime();
@@ -110,19 +78,10 @@ void matTransposeImp(float** M, float** T, int n){
     }
 
     double end = omp_get_wtime();
-    
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
-
-    print_log("Implicit Transposition", TRANSPOSITION, IMPLICIT, n, n_threads, end - start);
+    print_log(global_log, "Implicit Transposition", TRANSPOSITION, IMPLICIT, n, n_threads, end - start);
 }
 
-/**
- * @brief matrix transposition using block segmentation
- * 
- * @param[in] M original matrix
- * @param[out] T transposed matrix
- * @param[in] n size of the matrices M[n][n] and T[n][n]
- */
 /*
 void matTransposeBlock(float** M, float** T, int n){
     int bi,bj,i,j;
@@ -144,31 +103,22 @@ void matTransposeBlock(float** M, float** T, int n){
     }
     
     double end = omp_get_wtime();
-    
-    
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
-    print_log("Implicit Transposition BlockBased", BLOCKS, n, n_threads, end - start);
+    print_log(global_log, "Implicit Transposition BlockBased", BLOCKS, n, n_threads, end - start);
 }
 */
 
 // TASK 3
 
-/**
- * @brief Check if a matrix is symmetric
- *
- * @param M matrix to check.
- * @param n size of the matrix M[n][n]
- * @return true if the matrix is symmetric, false otherwise
- */
 bool checkSymOMP(float** M, int n) {
     double start = omp_get_wtime();
 
     int i;
     bool is_sym = true;
 
-    #pragma omp parallel for collapse(1) shared(M, n, i) reduction(&:is_sym)
+    #pragma omp parallel for collapse(1) reduction(&:is_sym)
     for (i = 0; i < n - 1; ++i) {
-        
+
         #pragma omp parallel for collapse(1) reduction(&:is_sym)
         for (int j = i + 1; j < n; ++j) {
             if (M[i][j] != M[j][i]) {
@@ -178,20 +128,13 @@ bool checkSymOMP(float** M, int n) {
     }
 
     double end = omp_get_wtime();
-    
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
-    print_log("OMP Parallelized Symmetry Check", SYMMETRY, OMP, n, n_threads, end - start);
+    print_log(global_log, "OMP Parallelized Symmetry Check", SYMMETRY, OMP, n, n_threads, end - start);
 
     return is_sym;
 }
 
-/**
- * @brief matrix transposition, parallelized using OpenMP
- * 
- * @param[in] M matrix
- * @param[out] T M transposed
- * @param[in] n size of matrix M[n][n]
- */
+
 void matTransposeOMP(float** M, float** T, int n){
     double start = omp_get_wtime();
 
@@ -206,7 +149,18 @@ void matTransposeOMP(float** M, float** T, int n){
 
 
     double end = omp_get_wtime();
-    
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
-    print_log("OMP Parallelized Transposition", TRANSPOSITION, OMP, n, n_threads, end - start);
+    print_log(global_log, "OMP Parallelized Transposition", TRANSPOSITION, OMP, n, n_threads, end - start);
+}
+
+
+bool check_transpose(float **M, float **T, int size){
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (M[i][j] != T[j][i]) {
+                return false;
+            }
+        }
+    }
+    return true;
 }

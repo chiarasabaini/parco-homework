@@ -15,7 +15,7 @@ void test_performance(){
         // allocate memory for matrices
         float** M = new_mat(size);
         float** T = new_mat(size);
-        init_random_mat(M, size);
+        init_mat(M, size);
         
         if (checkSym(M, size)) {
             for (int i = 0; i < size; ++i) {
@@ -31,13 +31,13 @@ void test_performance(){
             // print_matrix(T, size);
 
             // TASK 2: implicitly parellelized transposition
-            
             checkSymImp(M, size);
             matTransposeImp(M, T, size);
             
             check_transpose(M, T, size);
             // print_matrix(T, size);
 
+            // TASK 3: parallelized transposition using OpenMP
             checkSymOMP(M, size);
             matTransposeOMP(M, T, size);
             check_transpose(M, T, size);
