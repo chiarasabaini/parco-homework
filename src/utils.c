@@ -90,11 +90,10 @@ void print_matrix(float** M, int size) {
 
 
 // MATRIX
+float** new_mat(int size) {
+    float** M = malloc(sizeof(float*) * size);
 
-float **new_mat(int size) {
-    float **M = malloc(sizeof(float*) * size);
-
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; i++) {
             M[i] = malloc(sizeof(float) * size);
     }
     return M;
@@ -104,8 +103,8 @@ float **new_mat(int size) {
 void init_mat(float** M, int n) {
     srand(time(NULL));
 
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
             M[i][j] = ((float)rand()) / RAND_MAX;
         }
     }
