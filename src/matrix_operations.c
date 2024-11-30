@@ -12,12 +12,17 @@
 
 bool checkSym(float** M, int n) {
     double start = omp_get_wtime();
-    
+    bool isSym = true;
+
     for (int i = 0; i < n - 1; i++) {
         for (int j = i + 1; j < n; j++) {
             if (M[i][j] != M[j][i]) {
-                return false;
+                isSym = false;
+                break;
             }
+        }
+        if (!isSym){
+            break;
         }
     }
 
@@ -25,7 +30,7 @@ bool checkSym(float** M, int n) {
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
     print_log(global_log, "Sequential Symmetry Check", SYMMETRY, SEQUENTIAL, n, n_threads, end - start);
 
-    return true;
+    return isSym;
 }
 
 
@@ -48,22 +53,26 @@ void matTranspose(float** M, float** T, int n) {
 
 bool checkSymImp(float** M, int n) {
     double start = omp_get_wtime();
+    bool isSym = true;
 
     for (int i = 0; i < n - 1; i++) {
-
         #pragma unroll(4)
         for (int j = i + 1; j < n; j++) {
             if (M[i][j] != M[j][i]) {
-                return false;
+                isSym = false;
+                break;
             }
+        }
+        if (!isSym){
+            break;
         }
     }
 
-    double end = omp_get_wtime();
+    double duration = omp_get_wtime() - start;
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
-    print_log(global_log, "Implicit Symmetry Check", SYMMETRY, IMPLICIT, n, n_threads, end - start);
+    print_log(global_log, "Implicitly Optimized Symmetry Check", SYMMETRY, IMPLICIT, n, n_threads, duration);
 
-    return true;
+    return isSym;
 }
 
 

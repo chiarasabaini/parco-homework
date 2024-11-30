@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-pthread -O0 -g -w -fopenmp") 
+set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-pthread -g -w -fopenmp") 
 # flag di compilazione -pthread lib per il threading -O0 disabilita ottimizzazione
 # optimization levels:
 # O0 -> no optimization, faster compilation time

@@ -67,7 +67,7 @@ FILE* init_log() {
         printf("%s:\n\tmatrix size: %d\n\tn_threads: %d\n\texecution time:%f\n", msg, size, n_threads, execution_time);
     #endif
 
-    fprintf(log, "%d,%d,%s,%s,%f\n", size, n_threads, func2str(func), imp2str(imp), execution_time);
+    fprintf(log, "%d,%d,%s,%s,%0.9f\n", size, n_threads, func2str(func), imp2str(imp), execution_time);
 }
 
 

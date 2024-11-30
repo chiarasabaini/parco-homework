@@ -15,32 +15,25 @@ void test_performance(){
         float** T = new_mat(size);
         init_mat(M, size);
         
-        if (checkSym(M, size)) {
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
-                    T[i][j] = M[i][j];
-                }
-            }
-        } else {
-            for (int i = 0; i < 5; i++) {
-                // TASK 1: sequential matrix transposition
-                checkSym(M, size);
-                matTranspose(M, T, size);
-                check_transpose(M, T, size);
-                // print_matrix(T, size);
-    
-                // TASK 2: implicitly parellelized transposition
-                checkSymImp(M, size);
-                matTransposeImp(M, T, size);
-                check_transpose(M, T, size);
-                // print_matrix(T, size);
-    
-                // TASK 3: parallelized transposition using OpenMP
-                checkSymOMP(M, size);
-                matTransposeOMP(M, T, size);
-                check_transpose(M, T, size);
-            }
+        for (int i = 0; i < 5; i++) {
+            // TASK 1: sequential matrix transposition
+            checkSym(M, size);
+            matTranspose(M, T, size);
+            check_transpose(M, T, size);
+            // print_matrix(T, size);
+
+            // TASK 2: implicitly parellelized transposition
+            checkSymImp(M, size);
+            matTransposeImp(M, T, size);
+            check_transpose(M, T, size);
+            // print_matrix(T, size);
+
+            // TASK 3: parallelized transposition using OpenMP
+            checkSymOMP(M, size);
+            matTransposeOMP(M, T, size);
+            check_transpose(M, T, size);
         }
+
         free_mat(M, size);
         free_mat(T, size);
     }
