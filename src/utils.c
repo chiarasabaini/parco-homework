@@ -54,14 +54,14 @@ FILE* init_log() {
     if (log == NULL) {
         perror("Error opening file");
     } else {
-        fprintf(log, "Matrix Size, Threads, Function, Implementation, Execution Time\n");
+        fprintf(log, "Matrix Size,Threads,Function,Implementation,Execution Time\n");
     }
 
     return log;
 }
 
 
-void print_log(FILE* log, const char* msg, func_t func, imp_t imp, int size, int n_threads, double execution_time) {
+ void print_log(FILE* log, const char* msg, func_t func, imp_t imp, int size, int n_threads, double execution_time) {
 
     #if LOG_DEBUG == 1
         printf("%s:\n\tmatrix size: %d\n\tn_threads: %d\n\texecution time:%f\n", msg, size, n_threads, execution_time);
