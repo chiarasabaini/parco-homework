@@ -110,6 +110,20 @@ void init_mat(float** M, int n) {
     }
 }
 
+void init_symmetric_mat(float** M, int n) {
+    srand(time(NULL));
+
+    for (int i = 0; i < n; i++) {
+        for (int j = i; j < n; j++) {
+            M[i][j] = ((float)rand()) / RAND_MAX;
+
+            if(i != j) { // off diagonal elements
+                M[j][i] = M[i][j];
+            }
+        }
+    }
+}
+
 
 void free_mat(float **M, int n) {
     for (int i = 0; i < n; i++) {

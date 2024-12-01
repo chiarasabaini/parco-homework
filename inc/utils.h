@@ -79,6 +79,15 @@ void free_mat(float **M, int n);
 void init_mat(float** M, int n);
 
 
+/**
+ * @brief Initialize given matrix, populating it with random values to make it symmetric
+ * 
+ * @param M matrix
+ * @param n size of matrix M[n][n]
+ */
+void init_symmetric_mat(float** M, int n);
+
+
 // LOG
 
 extern FILE* global_log;
