@@ -123,7 +123,7 @@ bool checkSymOMP(float** M, int n) {
     double start = omp_get_wtime();
 
     int i;
-    bool is_sym = true;
+    bool isSym = true;
 
     #pragma omp parallel for collapse(1) reduction(&:is_sym)
     for (i = 0; i < n - 1; i++) {
@@ -131,7 +131,7 @@ bool checkSymOMP(float** M, int n) {
         #pragma omp parallel for collapse(1) reduction(&:is_sym)
         for (int j = i + 1; j < n; j++) {
             if (M[i][j] != M[j][i]) {
-                is_sym = false;
+                isSym = false;
         }
     }
     }
@@ -140,7 +140,7 @@ bool checkSymOMP(float** M, int n) {
     int n_threads = atoi(getenv("OMP_NUM_THREADS"));
     print_log(global_log, "OMP Parallelized Symmetry Check", SYMMETRY, OMP, n, n_threads, end - start);
 
-    return is_sym;
+    return isSym;
 }
 
 

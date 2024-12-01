@@ -7,4 +7,4 @@ MakeFile
 
 bin/
 build/
-docs/res/report/
+report/
