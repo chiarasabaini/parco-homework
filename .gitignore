@@ -5,10 +5,6 @@ CMakeCache.txt
 *.cmake
 MakeFile
 
-build/
 bin/
-out/
-
-err.e
-out.o
-homework.exe
+build/
+docs/res/report/
